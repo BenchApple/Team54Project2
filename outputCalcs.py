@@ -10,10 +10,10 @@ def resevoirArea():
 # Eout is the required energy out of the system (120 kWh)
 # etaP is the efficiency of the pump.
 def calcEnergyIn(ELossA, Eout, etaP):
-    return (ELossA + Eout) / (1 - etaP)
+    return (Eout + ELossA) / (1 - (1 - etaP))
 
 def sysEfficiency(eIn, eOut):
-    return eIn / eOut 
+    return eOut / eIn 
 
 # Calculates the amount of time it takes to fill the resevoir
 def timeToFill(pumpFlowVolume, waterVolume):

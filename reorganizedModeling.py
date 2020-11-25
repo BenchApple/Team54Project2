@@ -13,8 +13,7 @@ def mwhToJoules(mwh):
 def joulesToMwh(joules):
     result = joules / 3.6
 
-    for i in range(0, 9):
-        result /= 10
+    result = result / (10 ** 9)
 
     return result
 
@@ -29,7 +28,7 @@ def pipeBendHeadLoss(fittingFactor, waterVelocity):
 
 # Calculates the head loss due to pipe friction using the darcy weisbach equation.
 def darcyWeisbach(pipeLength, diameter, exitVelocity, frictionFactor):
-    return frictionFactor * (pipeLength / diameter) * ((exitVelocity ** 2) / (2 * g))
+    return frictionFactor * ((pipeLength / diameter) * ((exitVelocity ** 2) / (2 * g)))
 
 # Calculates the energy loss due to pipe head loss, regardless of what the head loss was a result of.
 # M - The mass of the water going through the pipe.

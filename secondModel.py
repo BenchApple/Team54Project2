@@ -52,18 +52,19 @@ def main():
     lossDown = m.energyLossFromHeadLoss(dwDown, waterVolume)
 
     # Calculate energy loss from bends
-    bendHeadLossTop = m.pipeBendHeadLoss(k1, veloUp) + m.pipeBendHeadLoss(k1, veloDown)
-    bendHeadLossBottom = m.pipeBendHeadLoss(k2, veloUp) + m.pipeBendHeadLoss(k2, veloDown)
+    bendHeadLossTop = m.pipeBendHeadLoss(k2, veloUp) + m.pipeBendHeadLoss(k2, veloDown)
+    bendHeadLossBottom = m.pipeBendHeadLoss(k1, veloUp) + m.pipeBendHeadLoss(k1, veloDown)
     bendLossTop = m.energyLossFromHeadLoss(bendHeadLossTop, waterVolume)
     bendLossBottom = m.energyLossFromHeadLoss(bendHeadLossBottom, waterVolume)
 
-
     # Calculate the total energy loss from everything but the pump.
     totalEnergyLoss = turbineL + lossDown + lossUp + bendLossBottom + bendLossTop
+    energyLossMwh = m.joulesToMwh(totalEnergyLoss)
 
-    eInJoules = o.calcEnergyIn(totalEnergyLoss, eOut, pumpEff)
-    eIn = m.joulesToMwh(eInJoules)
-    print(eIn)
+    #eInJoules = o.calcEnergyIn(totalEnergyLoss, eOut, pumpEff)
+    eInMhw = o.calcEnergyIn(energyLossMwh, energyOut, pumpEff)
+    #eIn = m.joulesToMwh(eInJoules)
+    print(eInMhw)
 
 
 
