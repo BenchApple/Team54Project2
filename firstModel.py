@@ -2,21 +2,23 @@
 
 # This file contains the final calculations so far using the models created.
 
-import modeling as m
+import reorganizedModeling as m
+import outputCalcs as o
 
 def main():
     #initialEnergy = 200 # placeholder.
     pumpEff = .9
     finalEnergy = 120 # Final value of the energy will always need to be 120 kilowatt hours.
-    turbineEff = .9
+    turbineEff = .92
     M = 100 # mass, placeholder
     pipeFrictionConst = .05
-    pipeLength = 100
+    pipeLength = 75
     diameter = 2
+    eOutJoules = m.mwhToJoules(finalEnergy)
 
     # Parameters for bends in the pipe
-    topFittingFactor = 1
-    bottomFittingFactor = 1
+    topFittingFactor = .2
+    bottomFittingFactor = .15
 
     fillingTime = 12 # Measured in hours
     drainingTime = 12 # measured in hours
@@ -29,7 +31,7 @@ def main():
 
     # Do the calculations based on the placeholder values.
     #pump = m.pumpLoss(initialEnergy, pumpEff)
-    turbine = m.turbineLoss(finalEnergy, turbineEff)
+    turbine = m.turbineLoss(eOutJoules, turbineEff)
 
     dwUp = m.darcyWeisbach(pipeLength, diameter, veloUp, pipeFrictionConst)
     dwDown = m.darcyWeisbach(pipeLength, diameter, veloDown, pipeFrictionConst)
@@ -43,7 +45,8 @@ def main():
 
     totalEnergyLoss = turbine + lossDown + lossUp + bendLossBottom + bendLossTop
 
-    requiredInputEnergy = m.calcEnergyIn(totalEnergyLoss, finalEnergy, pumpEff)
+    requiredInputEnergy = o.calcEnergyIn(totalEnergyLoss, eOutJoules, pumpEff)
+    requiredInputEnergy = m.joulesToMwh(requiredInputEnergy)
     print(requiredInputEnergy)
     
 
