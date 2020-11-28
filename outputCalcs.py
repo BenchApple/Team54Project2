@@ -9,8 +9,11 @@ def resevoirArea():
 # ELossA is the amount of energy lost in the system from every souce after the pump
 # Eout is the required energy out of the system (120 kWh)
 # etaP is the efficiency of the pump.
-def calcEnergyIn(ELossA, Eout, etaP):
+def calcEnergyInOld(ELossA, Eout, etaP):
     return (Eout + ELossA) / (1 - (1 - etaP))
+
+def calcEnergyIn(eLossA, eOut, etaP):
+    return (eLossA + eOut) / etaP
 
 def sysEfficiency(eIn, eOut):
     return eOut / eIn 

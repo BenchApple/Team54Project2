@@ -34,9 +34,6 @@ def main():
         for j in range(0, len(perfDown)):
             print(turbData[j][i])
 
-
-
-
 # Eff, rating are indices, not the specific values
 #
 def getCostArray(data):
@@ -51,11 +48,6 @@ def getCostArray(data):
         data[line] = curLine
 
     return data
-
-
-        
-
-
 
 if __name__ == "__main__":
     main()

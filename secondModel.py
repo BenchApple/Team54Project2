@@ -61,10 +61,12 @@ def main():
     totalEnergyLoss = turbineL + lossDown + lossUp + bendLossBottom + bendLossTop
     energyLossMwh = m.joulesToMwh(totalEnergyLoss)
 
-    #eInJoules = o.calcEnergyIn(totalEnergyLoss, eOut, pumpEff)
+    eInJoules = o.calcEnergyIn(totalEnergyLoss, eOut, pumpEff)
     eInMhw = o.calcEnergyIn(energyLossMwh, energyOut, pumpEff)
-    #eIn = m.joulesToMwh(eInJoules)
-    print(eInMhw)
+    eIn = m.joulesToMwh(eInJoules)
+    print(eIn)
+    eff = o.sysEfficiency(eInMhw, energyOut)
+    print(eff)
 
 
 
