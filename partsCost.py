@@ -25,26 +25,26 @@ def calcParts():
     # for turbine, second value is efficiency, third is perf rating, fourth is volumetric flow.
     # Each of these options are the Index that that option is stored in in the actual table for all of the data
 
-    # Keeps track of the total cost
-    cost = 0
+    # Keeps track of the total price
+    price = 0
 
     for line in parts.readlines():
         curLine = line.rstrip().split()
         
         if int(curLine[0]) == 1:
             # If the first value is 1 then we have pump specifications
-            cost += (pumpData[int(curLine[2])][int(curLine[1])]) * float(curLine[3])
+            price += (pumpData[int(curLine[2])][int(curLine[1])]) * float(curLine[3])
         elif int(curLine[0]) == 2:
             # If the first value is 1 then we have pump specifications
-            cost += (pipeData[int(curLine[2])][int(curLine[1])]) * float(curLine[3]) 
+            price += (pipeData[int(curLine[2])][int(curLine[1])]) * float(curLine[3]) 
         elif int(curLine[0]) == 3:
             # If the first value is 1 then we have pump specifications
-            cost += (bendData[int(curLine[2])][int(curLine[1])])
+            price += (bendData[int(curLine[2])][int(curLine[1])])
         elif int(curLine[0]) == 4:
             # If the first value is 1 then we have pump specifications
-            cost += (turbData[int(curLine[2])][int(curLine[1])]) * float(curLine[3])
+            price += (turbData[int(curLine[2])][int(curLine[1])]) * float(curLine[3])
 
-    print(cost)
+    return price
 
 
 

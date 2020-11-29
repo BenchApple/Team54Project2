@@ -59,7 +59,7 @@ def waterVelocity(timeElapsed, waterVolume, diameter):
 
 # Calculates the water volume based on the mass of the volume.
 def calcWaterVolume(waterMass):
-    waterDensity = 1 # Assume that the waster density is 1 gram / cm^3
+    waterDensity = 1000 # Assume that the waster density is 1 gram / cm^3
 
     # since volume = mass / density
     return waterMass / waterDensity
