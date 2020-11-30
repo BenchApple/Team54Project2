@@ -100,7 +100,6 @@ def main():
 
 def randomInitialization(waterVol):
     minPumpTurbVolFlow = waterVol / (3600 * 12)
-    print(int(minPumpTurbVolFlow) + 1)
 
     initialized = []
 
