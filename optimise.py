@@ -18,6 +18,11 @@ import cost
 # keep mass stored in resevoir constant for now
 
 def main():
+    print("The main function is in another castle!!")
+
+def runOptimization():
+    DEBUG = 0
+
     waterMass = 1.07 * (10 ** 9)
     energyOut = 120 # in MWh
 
@@ -51,7 +56,7 @@ def main():
 
     # pipe bend stuff - mostly chosen based on zone choice.
     pipeLossCoef = [.1,.15,.2,.22,.27,.3]
-    intDia = [.1,.25,.5,.75,1,1.25,1.5,1.75,2,2.25,2.5,2.75,3]
+    intDia = [.1, .25, .5, .75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3]
 
     # turbine stuff
     turbEff = [.83,.86,.89,.92,.94]
@@ -62,10 +67,161 @@ def main():
     randomValues = randomInitialization(waterVol)
     valueArray = randomValues
 
+    minPumpTurbVolFlow = int(waterVol / (3600 * 12)) + 1
+
+    bestCost = 999999999
+    hasConverged = False
+    iterationCounter = 0
+    # Keeps track of the array producing the minimum cost so far
+    bestValueArray = valueArray.copy()
+
+    while not hasConverged:
+        # Keeps track of what change was the change that caused the greated change in the cost
+        # -1 = no change, 0 - pump efficiency plus, 1 - pump eff minus, 2 - pumpVolFlow plus, 3 - pump vol flow minus, 4 - pipe dff plus, 5 - pipe dff minus
+        # 6 - pipe dia plus, 7 - pipe dia minus, 8 - turb eff plus, 9 - turb eff minus, 10 - turb vol flow plus, 11 - turb vol flow minus
+        changeTracker = -1
+        
+        # Test array used to test values so that value array doesn't need to be changed until the end.
+        testArray = valueArray.copy()
+
+        # Go through all of the potential changes and record the costs for each of those changes
+        testArray[0] = (testArray[0] + 1) % 5
+        # Calculate the cost in this situation and compare it to the top Change
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 0
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+
+        testArray[0] = (testArray[0] - 1) % 5
+        # Calculate the cost in this situation and compare it to top Change
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 1
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+
+    
+        testArray[1] = ((testArray[1] + 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 2
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+
+        testArray[1] = ((testArray[1] - 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 3
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+
+    
+        testArray[2] = (testArray[2] + 1) % 6
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 4
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+
+        testArray[2] = (testArray[2] - 1) % 6
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 5
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+
+    
+        testArray[3] = (testArray[3] + 1) % 13
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 6
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+
+        testArray[3] = (testArray[3] - 1) % 13
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 7
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+    
+    
+        testArray[4] = (testArray[4] + 1) % 5
+        # Calculate the cost in this situation and compare it to the top Change
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 8
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+
+        testArray[4] = (testArray[4] - 1) % 5
+        # Calculate the cost in this situation and compare it to top Change
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 9
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+    
+    
+        testArray[5] = ((testArray[5] + 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 10
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+
+        testArray[5] = ((testArray[5] - 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+        c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
+        if c < bestCost:
+            bestCost = c
+            changeTracker = 11
+            bestValueArray = testArray.copy()
+        testArray = valueArray.copy()
+
+        if changeTracker == -1:
+            hasConverged = True
+
+        valueArray = bestValueArray.copy()
+        iterationCounter += 1
+
+        if DEBUG:
+            print(iterationCounter)
+
+        #print (iterationCounter)
+    #print(iterationCounter)
+    finalResults = getCost(energyOut, pumpEffs, bestValueArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)
+    
+    if DEBUG:
+        print(finalResults[0])
+        print(finalResults[1])
+        print(finalResults[2])
+    
+    return [finalResults, bestValueArray]
+
+
+def getCost(energyOut, pumpEffs, valueArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating):
+    # Transform kValues into something usable by energyIn
+    pipeLossCoef = [.1,.15,.2,.22,.27,.3]
+    kVals = []
+    for i in range(0, len(kValues)):
+        kVals.append(pipeLossCoef[kValues[i]])
+    
     # Calculates energy in
     eIn = model.calcEIn(energyOut, pumpEffs[valueArray[0]], valueArray[1], pipeDFFs[valueArray[2]], 
-                        pipeDias[valueArray[3]], pipeLen, kValues, intDia[valueArray[3]], bendCount, 
-                        turbEff[valueArray[4]], valueArray[5], waterVol)
+                            pipeDias[valueArray[3]], pipeLen, kVals, intDia[valueArray[3]], bendCount, 
+                           turbEff[valueArray[4]], valueArray[5], waterMass)
 
     # Create the partSelection.txt file for price calculation.
     parts = open("partSelection.txt", 'w')
@@ -78,7 +234,7 @@ def main():
     pipeLine = "2 " + str(valueArray[2]) + " " + str(valueArray[3]) + " " + str(pipeLen) + "\n"
     parts.write(pipeLine)
 
-    # piece together the lines for the bends
+    # piece together the lines for the bends    
     for i in range(0, bendCount):
         bendline = "3 " + str(kValues[i]) + " " + str(valueArray[3]) + "\n"
         parts.write(bendline)
@@ -91,12 +247,42 @@ def main():
     # Calculate the price of the parts
     iterationPrice = price.calcParts()
 
-    print(eIn)
-    print(iterationPrice)
+    #print(eIn)
+    #print(iterationPrice)
     iterationCost = cost.cost(eIn, iterationPrice)
-    print(iterationCost)
+    #print(iterationCost)
+    #print(" ")
+    return [iterationCost, eIn, iterationPrice]
 
-
+def storage():
+    # Since we have now found the change that causes the greatest change in the cost, we need to keep it.
+    #    if changeTracker == 0:
+    #        valueArray[0] = (valueArray[0] + 1) % 5
+    #    elif changeTracker == 1:
+    #        valueArray[0] = (valueArray[0] - 1) % 5
+    #    elif changeTracker == 2:
+    #        valueArray[1] = ((valueArray[1] + 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+    #    elif changeTracker == 3:
+    #        valueArray[1] = ((valueArray[1] - 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+    #    elif changeTracker == 4:
+    #        valueArray[2] = (valueArray[2] + 1) % 6
+    #    elif changeTracker == 5:
+    #        valueArray[2] = (valueArray[2] - 1) % 6
+    #    elif changeTracker == 6:
+    #        valueArray[3] = (valueArray[3] + 1) % 13
+    #    elif changeTracker == 7:
+    #        valueArray[3] = (valueArray[3] - 1) % 13
+    #    elif changeTracker == 8:
+    #        valueArray[4] = (valueArray[4] + 1) % 5
+    #    elif changeTracker == 9:
+    #        valueArray[4] = (valueArray[4] - 1) % 5
+    #    elif changeTracker == 10:
+    #       valueArray[5] = ((valueArray[5] + 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+    ##   elif changeTracker == 11:
+    #        valueArray[5] = ((valueArray[5] - 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+    #    elif changeTracker == -1:
+    #        hasConverged = True
+    pass
 
 def randomInitialization(waterVol):
     minPumpTurbVolFlow = waterVol / (3600 * 12)

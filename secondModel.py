@@ -9,23 +9,19 @@ import reorganizedModeling as m
 def main():
     # Input parameters.
     energyOut = 120
-    pumpEff = .9
-    pumpVolFlow = 65
-    pipeDia = 2
+    pumpEff = .92
+    pumpVolFlow = 46
+    pipeDia = 3
     pipeLen = 75
-    pipeDff = .05
+    pipeDff = .01
     resevoirDepth = 10
     resevoirElevation = 50
     bendCount = 2
     kVals = [.15, .2]
-    turbEff = .92
-    turbVolFlow = 30
+    turbEff = .83
+    turbVolFlow = 140
 
     waterMass = 1.07 * (10 ** 9)
-
-    # Our choice
-    fillTime = 4.58
-    
     waterVolume = m.calcWaterVolume(waterMass)
     
     fillTime = (waterVolume / pumpVolFlow) / 3600 # calculates the fill time in hours
