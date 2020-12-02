@@ -11,7 +11,7 @@ def main():
     energyOut = 120
     pumpEff = .92
     pumpVolFlow = 42
-    pipeDia = 2.5
+    pipeDia = 3
     pipeLen = 67.1
     pipeDff = .002
     resevoirDepth = 10

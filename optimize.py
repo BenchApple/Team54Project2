@@ -25,7 +25,8 @@ def main():
     print(minResult[1])
 
 def runOptimization(waterMass):
-    DEBUG = 0
+    DEBUG = 1
+    DATA_COLLECTION = 1
 
     #waterMass = 1.07 * (10 ** 9)
     energyOut = 120 # in MWh
@@ -79,6 +80,9 @@ def runOptimization(waterMass):
     iterationCounter = 0
     # Keeps track of the array producing the minimum cost so far
     bestValueArray = valueArray.copy()
+
+    if DATA_COLLECTION:
+        costTracker = []
 
     while not hasConverged:
         # Keeps track of what change was the change that caused the greated change in the cost
@@ -257,6 +261,11 @@ def runOptimization(waterMass):
         else:
             print(iterationCounter)
 
+
+        if DATA_COLLECTION:
+            costTracker.append(bestCost)
+        
+
         #print (iterationCounter)
     #print(iterationCounter)
     finalResults = getCost(energyOut, pumpEffs, bestValueArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)
@@ -266,11 +275,11 @@ def runOptimization(waterMass):
     #    print(finalResults[1])
     #    print(finalResults[2])
     
-    return [finalResults, bestValueArray]
+    return [finalResults, bestValueArray, costTracker if DATA_COLLECTION else None]
 
 
 def getCost(energyOut, pumpEffs, valueArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating):
-    DEBUG = 0
+    DEBUG = 1
     
     # Transform kValues into something usable by energyIn
     pipeLossCoef = [.1,.15,.2,.22,.27,.3]
