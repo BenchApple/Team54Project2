@@ -10,18 +10,18 @@ def main():
     # Input parameters.
     energyOut = 120
     pumpEff = .92
-    pumpVolFlow = 48
-    pipeDia = 2.75
-    pipeLen = 75
-    pipeDff = .02
+    pumpVolFlow = 42
+    pipeDia = 2.5
+    pipeLen = 67.1
+    pipeDff = .002
     resevoirDepth = 10
     resevoirElevation = 50
     bendCount = 2
     kVals = [.15, .2]
-    turbEff = .92
-    turbVolFlow = 29
+    turbEff = .89
+    turbVolFlow = 42
 
-    waterMass = 1.07 * (10 ** 9)
+    waterMass = 1.8 * (10 ** 9)
     waterVolume = m.calcWaterVolume(waterMass)
     
     fillTime = (waterVolume / pumpVolFlow) / 3600 # calculates the fill time in hours

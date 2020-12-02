@@ -2,7 +2,7 @@
 
 # This file runs optimizations multiple times in order to find the best of the local minima
 
-import optimise as o
+import optimize as o
 
 def optimizations(waterMass):
     minCost = 999999999

@@ -3,16 +3,17 @@
 # This file runs optimizations multiple times with varying water mass to see if that makes a difference for wahtever reasons it might
 
 import multipleOptimizations as m
+import optimize as o
 
 def main():
-    output = open("siteThreeSurfaceRaisedChoices.txt", 'w')
+    output = open("siteOneChoices.txt", 'w')
 
     for height in range(10, 41, 5):
         pi = 3.1415926
         h = height / 2
-        waterMass = ((225 / 2) ** 2) * h * 1000 * pi
+        waterMass = 600 * 600 * h * 1000
 
-        results = m.optimizations(waterMass)
+        results = o.runOptimization(waterMass)
 
         # Format the results of each trial and output them to the text file.
         cost = results[0][0]
