@@ -4,16 +4,17 @@
 
 import optimise as o
 
-def main():
+def optimizations(waterMass):
     minCost = 999999999
-    limit = 10
+    limit = 1000
     minResult = []
 
     for i in range(0, limit):
-        result = o.runOptimization()
+        result = o.runOptimization(waterMass)
+        print(i)
 
+        #print(result[0][0])
         if result[0][0] < minCost:
-            print(result[0][0])
             minCost = result[0][0]
             minResult = result.copy()
 
@@ -77,6 +78,8 @@ def main():
     turbLine = "4 " + str(turbEff[valueArray[4]]) + " " + str(turbRating) + " " + str(valueArray[5]) + "\n"
     parts.write(turbLine)
     parts.close()
+
+    return minResult
 
 if __name__ == "__main__":
     main()

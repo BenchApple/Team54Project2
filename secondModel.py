@@ -10,16 +10,16 @@ def main():
     # Input parameters.
     energyOut = 120
     pumpEff = .92
-    pumpVolFlow = 46
-    pipeDia = 3
+    pumpVolFlow = 48
+    pipeDia = 2.75
     pipeLen = 75
-    pipeDff = .01
+    pipeDff = .02
     resevoirDepth = 10
     resevoirElevation = 50
     bendCount = 2
     kVals = [.15, .2]
-    turbEff = .83
-    turbVolFlow = 140
+    turbEff = .92
+    turbVolFlow = 29
 
     waterMass = 1.07 * (10 ** 9)
     waterVolume = m.calcWaterVolume(waterMass)

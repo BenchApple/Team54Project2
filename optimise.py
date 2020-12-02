@@ -18,22 +18,27 @@ import cost
 # keep mass stored in resevoir constant for now
 
 def main():
-    print("The main function is in another castle!!")
+    minResult = runOptimization(1.07 * (10**9))
+    print(minResult[0][0])
+    print(minResult[0][1])
+    print(minResult[0][2])
+    print(minResult[1])
 
-def runOptimization():
-    DEBUG = 0
+def runOptimization(waterMass):
+    DEBUG = 1
 
-    waterMass = 1.07 * (10 ** 9)
+    #waterMass = 1.07 * (10 ** 9)
     energyOut = 120 # in MWh
 
+    waterMass = 795215626.875
     # get water volume from water mass
     waterVol = m.calcWaterVolume(waterMass)
 
     # Since pipe lengths will stay the same dependent on site (or they just have very few permutations)
     # we will define these at the start of the program. 
-    pipeLen = 75
+    pipeLen = 111.993
     bendCount = 2
-    kValues = [1,2]
+    kValues = [2, 3]
 
     # Calculate the required pump and turbine performace ratings
     pumpRatings = [20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120]
@@ -93,6 +98,8 @@ def runOptimization():
             changeTracker = 0
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
 
         testArray[0] = (testArray[0] - 1) % 5
         # Calculate the cost in this situation and compare it to top Change
@@ -102,23 +109,29 @@ def runOptimization():
             changeTracker = 1
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
 
     
-        testArray[1] = ((testArray[1] + 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+        testArray[1] = ((testArray[1] + 5) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
         c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
         if c < bestCost:
             bestCost = c
             changeTracker = 2
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
 
-        testArray[1] = ((testArray[1] - 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+        testArray[1] = ((testArray[1] - 5) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
         c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
         if c < bestCost:
             bestCost = c
             changeTracker = 3
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
 
     
         testArray[2] = (testArray[2] + 1) % 6
@@ -128,6 +141,8 @@ def runOptimization():
             changeTracker = 4
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
 
         testArray[2] = (testArray[2] - 1) % 6
         c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
@@ -136,6 +151,8 @@ def runOptimization():
             changeTracker = 5
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
 
     
         testArray[3] = (testArray[3] + 1) % 13
@@ -145,6 +162,8 @@ def runOptimization():
             changeTracker = 6
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
 
         testArray[3] = (testArray[3] - 1) % 13
         c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
@@ -153,7 +172,8 @@ def runOptimization():
             changeTracker = 7
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
-    
+        if DEBUG:
+            print(c)
     
         testArray[4] = (testArray[4] + 1) % 5
         # Calculate the cost in this situation and compare it to the top Change
@@ -163,6 +183,8 @@ def runOptimization():
             changeTracker = 8
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
 
         testArray[4] = (testArray[4] - 1) % 5
         # Calculate the cost in this situation and compare it to top Change
@@ -172,23 +194,28 @@ def runOptimization():
             changeTracker = 9
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
     
-    
-        testArray[5] = ((testArray[5] + 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+        testArray[5] = ((testArray[5] + 5) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
         c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
         if c < bestCost:
             bestCost = c
             changeTracker = 10
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
 
-        testArray[5] = ((testArray[5] - 1) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
+        testArray[5] = ((testArray[5] - 5) % (500 - minPumpTurbVolFlow)) + minPumpTurbVolFlow
         c = getCost(energyOut, pumpEffs, testArray, pipeDFFs, pipeDias, pipeLen, kValues, intDia, bendCount, turbEff, waterMass, pumpRating, turbRating)[0]
         if c < bestCost:
             bestCost = c
             changeTracker = 11
             bestValueArray = testArray.copy()
         testArray = valueArray.copy()
+        if DEBUG:
+            print(c)
 
         if changeTracker == -1:
             hasConverged = True
@@ -197,7 +224,10 @@ def runOptimization():
         iterationCounter += 1
 
         if DEBUG:
+            print(bestCost)
+            print(changeTracker)
             print(iterationCounter)
+            print("")
 
         #print (iterationCounter)
     #print(iterationCounter)
