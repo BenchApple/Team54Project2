@@ -37,9 +37,11 @@ def runOptimization(waterMass):
 
     # Since pipe lengths will stay the same dependent on site (or they just have very few permutations)
     # we will define these at the start of the program. 
-    pipeLen = 67.1
+    # INPUT the length of the pipe in the system here
+    # INPUT the number of bends and their respective coefficients here (based on the indices in the list of coefficients below)
+    pipeLen = 75
     bendCount = 2
-    kValues = [1, 3]
+    kValues = [1, 2]
 
     # Calculate the required pump and turbine performace ratings
     pumpRatings = [20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120]

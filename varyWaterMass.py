@@ -7,7 +7,8 @@ import optimize as o
 import matplotlib.pyplot as plt
 
 def main():
-    waterMass = 1.8 * (10 ** 9)
+    # Input the water mass of the system here
+    waterMass = 1.07 * (10 ** 9)
 
     results = o.runOptimization(waterMass)
 
