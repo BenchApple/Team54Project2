@@ -11,3 +11,6 @@ Any text files present are utilized for various forms of data storage, and gener
 runs multiple times. testing.txt was used mainly for debugging as we had a rather nasty bug in the final week of the project
 
 All files in /textFiles are used for data storage when it comes to calculating the prices of components.
+
+In order to run the program, specify the water mass in the main function of varyWaterMass.py, and specify the pipe length
+and bend coefficients in optimize.py, then run varyWaterMass.py
